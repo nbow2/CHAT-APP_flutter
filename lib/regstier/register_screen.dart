@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vertion_1_0_chat/firebase_errors.dart';
+import 'package:vertion_1_0_chat/regstier/register_navigator.dart';
 import 'package:vertion_1_0_chat/regstier/register_view_model.dart';
+import 'package:vertion_1_0_chat/widgets/utils.dart' as ui;
 
 class RegisterScreen extends StatefulWidget {
 
@@ -12,7 +14,7 @@ class RegisterScreen extends StatefulWidget {
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends State<RegisterScreen> implements RegisterNavigator{
   String FirstName = '';
 
   String LastName = '' ;
@@ -26,6 +28,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   RegisterViewModel viewModel = RegisterViewModel() ;
 
   var formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    viewModel.navigator = this;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +62,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  Text('Create' ,style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold
+                  ),),
                   TextFormField(
                     decoration: InputDecoration(
                       labelText: 'First Name'
@@ -169,8 +182,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (formKey.currentState!.validate() == true){
 
       viewModel.registerFirebaseAuth(Email, Password);
-      Navigator.pop(context);
+     // Navigator.pop(context);
 
     }
+  }
+
+  @override
+  void hideLoading() {
+   ui.hideLoading(context);
+  }
+
+  @override
+  void showLoading() {
+   ui.showLoading(context, 'Loading....');
+  }
+
+  @override
+  void showMessage(String message) {
+    ui.showMessage(context, message,
+        'OK',
+        (context){
+      Navigator.pop(context);
+        });
   }
 }

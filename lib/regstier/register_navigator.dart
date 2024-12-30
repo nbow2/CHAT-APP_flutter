@@ -3,5 +3,16 @@ abstract class  RegisterNavigator{
   void hideLoading();
   void showMessage(String message);
 
+}
+
+abstract class Shape{
+  void draw();
+}
+
+class Rectangle extends Shape {
+  @override
+  void draw() {
+
+  }
 
 }
