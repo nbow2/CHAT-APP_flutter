@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:vertion_1_0_chat/Home/home_screen.dart';
 import 'package:vertion_1_0_chat/login/login_navgiator.dart';
@@ -157,7 +159,14 @@ class _LoginScreenState extends State<LoginScreen> implements LoginNavigator {
   void showMessage(String message) {
     ui.showMessage(context, message,
         'OK', (context){
-      Navigator.of(context).pushNamed(HomeScreen.routeName);
+      Navigator.pop(context);
         });
   }
+
+  @override
+  void navigateToHome() {
+    Timer(Duration(seconds: 5),(){
+      Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+    });
+    }
 }

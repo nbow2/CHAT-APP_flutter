@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Colors.transparent,
           appBar: AppBar(
             backgroundColor: Colors.transparent,
-            title: Text('Login'),
+            title: Text('Home'),
             centerTitle: true,
           ),
           body: Container()),

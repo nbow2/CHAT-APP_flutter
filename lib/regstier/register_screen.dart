@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vertion_1_0_chat/Home/home_screen.dart';
 import 'package:vertion_1_0_chat/firebase_errors.dart';
 import 'package:vertion_1_0_chat/regstier/register_navigator.dart';
 import 'package:vertion_1_0_chat/regstier/register_view_model.dart';
@@ -181,7 +184,7 @@ class _RegisterScreenState extends State<RegisterScreen> implements RegisterNavi
 
     if (formKey.currentState!.validate() == true){
 
-      viewModel.registerFirebaseAuth(Email, Password);
+      viewModel.registerFirebaseAuth(Email, Password , FirstName, LastName , userName);
      // Navigator.pop(context);
 
     }
@@ -204,5 +207,12 @@ class _RegisterScreenState extends State<RegisterScreen> implements RegisterNavi
         (context){
       Navigator.pop(context);
         });
+  }
+
+  @override
+  void navigateToHome() {
+    Timer(Duration(seconds: 3),(){
+      Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+    });
   }
 }
