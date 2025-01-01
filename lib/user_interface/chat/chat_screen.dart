@@ -60,7 +60,37 @@ class _ChatScreenState extends State<ChatScreen> implements ChatNavigator{
                 ]),
             child: Column(
               children: [
+                Expanded(child: Container()),
+                Row(
+                  children: [
+                    Expanded(child: TextFormField(
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(4),
+                        hintText: 'Your Message is ?',
+                        border:  OutlineInputBorder(
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(12)
+                            )
+                        )
+                      ),
+                    )),
+                    SizedBox(width: 10,),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
 
+                      ),
+                        onPressed: (){},
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Send' ,style: TextStyle(color: Colors.white),),
+                            SizedBox(width: 5,),
+                            Icon(Icons.send_outlined ,color: Colors.white,)
+                          ],
+                        ))
+                  ],
+                )
               ],
             ),
           ),
