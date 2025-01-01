@@ -3,10 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vertion_1_0_chat/database/database_helper.dart';
 import 'package:vertion_1_0_chat/model/myuser.dart';
-import 'package:vertion_1_0_chat/regstier/register_navigator.dart';
-import 'register_navigator.dart';
-
-import '../firebase_errors.dart';
+import 'package:vertion_1_0_chat/user_interface/regstier/register_navigator.dart';
+import 'package:vertion_1_0_chat/firebase_errors.dart';
 
 class RegisterViewModel extends ChangeNotifier {
   late RegisterNavigator navigator;
@@ -35,7 +33,7 @@ class RegisterViewModel extends ChangeNotifier {
 
       navigator.hideLoading();
       navigator.showMessage('Successfully');
-      navigator.navigateToHome();
+      navigator.navigateToHome(user);
 
     } on FirebaseAuthException catch (e) {
       if (e.code == FirebaseErrors.weakPassword) {

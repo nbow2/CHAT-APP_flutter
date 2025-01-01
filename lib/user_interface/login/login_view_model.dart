@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:vertion_1_0_chat/database/database_helper.dart';
-import 'package:vertion_1_0_chat/login/login_navgiator.dart';
+import 'package:vertion_1_0_chat/user_interface/login/login_navgiator.dart';
+import 'package:vertion_1_0_chat/firebase_errors.dart';
 
-import '../firebase_errors.dart';
 
 class LoginViewModel extends ChangeNotifier{
 
@@ -20,14 +20,14 @@ class LoginViewModel extends ChangeNotifier{
 
       navigator.hideLoading();
       navigator.showMessage("Successfully");
-      navigator.navigateToHome();
+      //navigator.navigateToHome();
 
       var userObj = await DatabaseHelper.getUSer(credential.user?.uid ?? "useridnotFound");
       if(userObj == null){
         navigator.hideLoading();
         navigator.showMessage('user not saved to database ');
       }
-        navigator.navigateToHome();
+        navigator.navigateToHome(userObj!);
 
 
 

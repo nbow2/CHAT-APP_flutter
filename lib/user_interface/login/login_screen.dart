@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:vertion_1_0_chat/Home/home_screen.dart';
-import 'package:vertion_1_0_chat/login/login_navgiator.dart';
-import 'package:vertion_1_0_chat/login/login_view_model.dart';
-import 'package:vertion_1_0_chat/regstier/register_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:vertion_1_0_chat/model/myuser.dart';
+import 'package:vertion_1_0_chat/provider/user_provider.dart';
+import 'package:vertion_1_0_chat/user_interface/Home/home_screen.dart';
+import 'package:vertion_1_0_chat/user_interface/login/login_navgiator.dart';
+import 'package:vertion_1_0_chat/user_interface/login/login_view_model.dart';
+import 'package:vertion_1_0_chat/user_interface/regstier/register_screen.dart';
 import 'package:vertion_1_0_chat/widgets/utils.dart' as ui;
 
 class LoginScreen extends StatefulWidget {
@@ -164,7 +167,9 @@ class _LoginScreenState extends State<LoginScreen> implements LoginNavigator {
   }
 
   @override
-  void navigateToHome() {
+  void navigateToHome(MyUser user) {
+    var userProvider = Provider.of<UserProvider>(context, listen: false);
+    userProvider.user = user;
     Timer(Duration(seconds: 5),(){
       Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
     });

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:vertion_1_0_chat/model/myuser.dart';
+import 'package:vertion_1_0_chat/model/room.dart';
 
 class DatabaseHelper{
 
@@ -13,11 +14,29 @@ class DatabaseHelper{
     return docSnapShot.data();
   }
 
+  static Future<void> craeteRoomToFireStore(Room room)async{
+    var docRef = getRoomCollection().doc();
+    room.roomId = docRef.id ;
+    return docRef.set(room);
+  }
+
+  static Stream<QuerySnapshot<Room>> getRooms(){
+    return getRoomCollection().snapshots();
+  }
+
   static CollectionReference<MyUser> getCollection(){
     return FirebaseFirestore.instance.collection(MyUser.CollectionName).
     withConverter<MyUser>(
         fromFirestore:( (snapshot , options) => MyUser.formJason(snapshot.data()!) )
         , toFirestore: ( (user , options ) => user.toJason())
+    );
+  }
+
+  static CollectionReference<Room> getRoomCollection(){
+    return FirebaseFirestore.instance.collection(Room.collectionName).
+    withConverter<Room>(
+        fromFirestore:( (snapshot , options) => Room.fromJson(snapshot.data()!) )
+        , toFirestore: ( (room , options ) => room.toJson())
     );
   }
 }

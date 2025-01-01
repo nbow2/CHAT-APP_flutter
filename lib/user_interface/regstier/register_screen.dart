@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vertion_1_0_chat/Home/home_screen.dart';
+import 'package:vertion_1_0_chat/model/myuser.dart';
+import 'package:vertion_1_0_chat/provider/user_provider.dart';
+import 'package:vertion_1_0_chat/user_interface/Home/home_screen.dart';
 import 'package:vertion_1_0_chat/firebase_errors.dart';
-import 'package:vertion_1_0_chat/regstier/register_navigator.dart';
-import 'package:vertion_1_0_chat/regstier/register_view_model.dart';
+import 'package:vertion_1_0_chat/user_interface/regstier/register_navigator.dart';
+import 'package:vertion_1_0_chat/user_interface/regstier/register_view_model.dart';
 import 'package:vertion_1_0_chat/widgets/utils.dart' as ui;
 
 class RegisterScreen extends StatefulWidget {
@@ -210,7 +212,9 @@ class _RegisterScreenState extends State<RegisterScreen> implements RegisterNavi
   }
 
   @override
-  void navigateToHome() {
+  void navigateToHome(MyUser user) {
+    var userProvider = Provider.of<UserProvider>(context, listen: false);
+    userProvider.user = user;
     Timer(Duration(seconds: 3),(){
       Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
     });
