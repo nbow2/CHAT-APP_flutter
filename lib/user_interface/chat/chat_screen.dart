@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vertion_1_0_chat/model/room.dart';
+import 'package:vertion_1_0_chat/provider/user_provider.dart';
 import 'package:vertion_1_0_chat/user_interface/chat/chat_navigator.dart';
 import 'package:vertion_1_0_chat/user_interface/chat/chat_view_model.dart';
+import 'package:vertion_1_0_chat/widgets/utils.dart' as ui;
 
 class ChatScreen extends StatefulWidget {
   static const String routeName = 'chat';
@@ -14,6 +16,8 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> implements ChatNavigator{
 
   ChatViewModel viewModel = ChatViewModel();
+  String massageContent = '' ;
+  TextEditingController controller = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -25,6 +29,9 @@ class _ChatScreenState extends State<ChatScreen> implements ChatNavigator{
   Widget build(BuildContext context) {
 
     var arg = ModalRoute.of(context)?.settings.arguments as Room ;
+    viewModel.room = arg ;
+    var provider = Provider.of<UserProvider>(context);
+    viewModel.user = provider.user! ;
 
     return ChangeNotifierProvider(
         create: (context) => viewModel,
@@ -64,6 +71,10 @@ class _ChatScreenState extends State<ChatScreen> implements ChatNavigator{
                 Row(
                   children: [
                     Expanded(child: TextFormField(
+                      onChanged: (text){
+                        massageContent = text ;
+                      },
+                      controller: controller,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(4),
                         hintText: 'Your Message is ?',
@@ -80,7 +91,9 @@ class _ChatScreenState extends State<ChatScreen> implements ChatNavigator{
                         backgroundColor: Colors.blue,
 
                       ),
-                        onPressed: (){},
+                        onPressed: (){
+                        viewModel.sendMassage(massageContent);
+                        },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -98,5 +111,20 @@ class _ChatScreenState extends State<ChatScreen> implements ChatNavigator{
     ]
         )
     );
+  }
+
+  @override
+  void showMessage(String message) {
+    ui.showMessage(context,
+        message,
+        'OK',
+        (context){
+      Navigator.pop(context);
+        });
+  }
+
+  @override
+  void clearMassage() {
+    controller.clear();
   }
 }

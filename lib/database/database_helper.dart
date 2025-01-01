@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:vertion_1_0_chat/model/message.dart';
 import 'package:vertion_1_0_chat/model/myuser.dart';
 import 'package:vertion_1_0_chat/model/room.dart';
 
@@ -24,6 +25,13 @@ class DatabaseHelper{
     return getRoomCollection().snapshots();
   }
 
+  static Future<void> insertMassage(Massage massage)async{
+    var messageCollection = getMassageCollection(massage.roomId);
+    var docRef = messageCollection.doc();
+    massage.id = docRef.id ;
+    return docRef.set(massage);
+  }
+
   static CollectionReference<MyUser> getCollection(){
     return FirebaseFirestore.instance.collection(MyUser.CollectionName).
     withConverter<MyUser>(
@@ -38,5 +46,12 @@ class DatabaseHelper{
         fromFirestore:( (snapshot , options) => Room.fromJson(snapshot.data()!) )
         , toFirestore: ( (room , options ) => room.toJson())
     );
+  }
+
+  static CollectionReference<Massage> getMassageCollection(String roomId){
+    return FirebaseFirestore.instance.collection(Room.collectionName).doc(roomId).collection(Massage.CollectionName).
+    withConverter(
+        fromFirestore: ((snapshot , options) => Massage.fromJson(snapshot.data()!)),
+        toFirestore: ( (massage , options ) => massage.toJson()));
   }
 }
