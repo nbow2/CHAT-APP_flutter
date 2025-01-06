@@ -5,7 +5,8 @@ class Massage {
   String content;
   String senderId;
   String senderName;
-  int dataTime;
+  String dataTime;
+  int time;
 
   Massage({
     this.id = '',
@@ -14,6 +15,7 @@ class Massage {
     required this.senderId,
     required this.senderName,
     required this.dataTime,
+    required this.time
   });
 
   // Factory constructor to create a Massage instance from a JSON object
@@ -24,7 +26,8 @@ class Massage {
       content: json['content'] as String ,
       senderId: json['senderId'] as String ,
       senderName: json['senderName'] as String ,
-      dataTime: json['dataTime'] as int,
+      dataTime: json['dataTime'] as String,
+      time:  json['time']  ?? 0 as int
     );
   }
 
@@ -37,6 +40,7 @@ class Massage {
       'senderId': senderId,
       'senderName': senderName,
       'dataTime': dataTime,
+      'time': time
     };
   }
 }
